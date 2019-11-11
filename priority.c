@@ -2,14 +2,14 @@
 #include <stdio.h>
 #include "priority.h"
 
-struct priority_s
+/*struct priority_s
 {
     int count;
     int priority;
     int myarray;
 
 }priority_t;
-
+*/
 priority_t *priority_init(int size)
 {
     if (size < 0)
