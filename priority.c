@@ -12,7 +12,7 @@ priority_t *priority_init(int size)
 
      priority_t *p = (priority_t *)malloc(sizeof(priority_t));
      p->max_size = size;
-     p->array_size = 0;
+     p->current_size = 0;
      p->event_tree = (event_t *)malloc(size*sizeof(event_t));
 
      for (int i = 0; i < size; i++)
@@ -50,7 +50,7 @@ int priority_insert(priority_t *q, event_t *ev)
         success = -1;
     else if(empty == 1)
     {
-        q->array_size = q->array_size++;
+        q->current_size = q->current_size++;
         q->event_tree[1] = ev;
         success = 0;
     }
@@ -114,7 +114,7 @@ int priority_full(priority_t *q)
 //free pointers used by the heap, and then free the heap
 void priority_finalize(priority_t *q)
 {
-    for(int i = 0; i < q->array_size; i++)
+    for(int i = 0; i < q->current_size; i++)
     {
         free(q->event_tree[i]);
         q->event_tree[i] = NULL;
