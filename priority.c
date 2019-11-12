@@ -1,30 +1,22 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "priority.h"
+#include "event.h"
 
-/*struct priority_s
-{
-    int count;
-    int priority;
-    int myarray;
 
-}priority_t;
-*/
+//initialize the priority heap-array
 priority_t *priority_init(int size)
 {
     if (size < 0)
         return NULL;
 
-    //int array[size] = {0};
-    //array = malloc(sizeof(int)*size+1);
-   // priority_t *p = (priority_t *)malloc(sizeof(priority_t) + a*sizeof(int));
      priority_t *p = (priority_t *)malloc(sizeof(priority_t));
-     p->myarray = (int*)malloc(sizeof(int) * size);
+     p->max_size = size;
+     p->array_size = 0;
+     p->event_tree = (event_t *)malloc(size*sizeof(event_t));
 
-
-    //p = myarray[size+1] = {0};    
-    p->count = 0;
-    p->priority = 0;
+     for (int i = 0; i < size; i++)
+        p->event_tree[i] = NULL;
 
     if(p == NULL)
         return NULL;
@@ -32,16 +24,65 @@ priority_t *priority_init(int size)
     return p;
 }
 
+//Function to make the array into a heap
+static void heapify(priority_t *q, event_t *ev)
+{
+
+}
+
+static void reheapify(priority_t *q)
+{
+
+}
+
+//insert an event into the priority heap-array.
+//0 for success, -1 otherwise
 int priority_insert(priority_t *q, event_t *ev)
 {
+    int full;
+    int empty;
+    int success;
 
+    full = priority_full(q);
+    empty = priority_empty(q);
+
+    if(full == 1)
+        success = -1;
+    else if(empty == 1)
+    {
+        q->array_size = q->array_size++;
+        q->event_tree[1] = ev;
+        success = 0;
+    }
+    else
+    {
+        heapify(q, ev);
+        success = 0;
+    }
+    
 }
 
+//remove the root (highest priority) of the heap
 event_t *priority_remove(priority_t *q)
 {
+    int empty;
+    empty = priority_empty(q);
+    event_t removal;
+    
+    if(empty == 1)
+        removal = NULL;
+    else
+    {
+        removal = q->event_tree[1];
+        reheapify(q);
+    }
 
+    return removal;
+    
 }
 
+//check to see if the heap is empty
+//1 if empty, 0 otherwise
 int priority_empty(priority_t *q)
 {
     int empty;
@@ -55,14 +96,33 @@ int priority_empty(priority_t *q)
     
 }
 
+//check to see if the heap is full
+//1 if full, 0 otherwise
 int priority_full(priority_t *q)
 {
+    int full;
 
+    if(q->count == q->size)
+        full = 1;
+    else
+        full = 0;
+    
+    return full;
+    
 }
 
+//free pointers used by the heap, and then free the heap
 void priority_finalize(priority_t *q)
 {
-    //there may need to be a line of code here but will revise later
-    q = NULL;
+    for(int i = 0; i < q->array_size; i++)
+    {
+        free(q->event_tree[i]);
+        q->event_tree[i] = NULL;
+    }
+    
+    free(q->event_tree);
+    q->event_tree = NULL;
+
     free(q);
+    q = NULL;
 }
