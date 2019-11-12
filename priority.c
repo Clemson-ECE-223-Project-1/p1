@@ -27,12 +27,62 @@ priority_t *priority_init(int size)
 //Function to make the array into a heap
 static void heapify(priority_t *q, event_t *ev)
 {
+    q->current_size = q->current_size++;
+    int child_pos, parent_pos;
+    child_pos = q->current_size;
+    parent_pos = child_pos/2;
 
+    while(parent_pos != 0)
+    {
+        if(ev->event_time >= q->event_tree[parent_pos]->event_time)
+        {
+            q->event_tree[child_pos] = ev;
+            return;
+        }
+        else
+        {
+            q->event_tree[child_pos] = q->event_tree[parent_pos];
+            child_pos = parent_pos;
+            parent_pos = parent_pos/2;
+        }
+    }
+    q->event_tree[child_pos] = ev;
 }
 
 static void reheapify(priority_t *q)
 {
+    int current_pos = 1;
+    int child_pos = 2*current_pos;
+    event_t ev;
+    ev = q->event_tree[eq->tree_size];
+    q->event_tree[q->tree_size] = NULL;
+    q->tree_size--;
 
+    if(priority_empty(q) != 1)
+    {
+        while(child_pos <= q->tree_size)
+        {
+            if(child_pos < q->tree_size)
+            {
+                double right_child = q->event_tree[child_pos+1]->event_time;
+                double left_child = q->event_tree[child_pos]->event_time;
+
+                if(right_child < left_child)
+                    child_pos = child_pos++;
+            }
+
+            if(q->event_tree[child_pos]->event_time >= ev->event_time)
+                break;
+            else
+            {
+                q->event_tree[current_pos] = q->event_tree[child_pos];
+                current_pos = child_pos;
+                child_pos = 2*child_pos;
+            }
+            
+        }
+        q->event_tree[current_pos] = ev;
+    }
 }
 
 //insert an event into the priority heap-array.
@@ -78,7 +128,6 @@ event_t *priority_remove(priority_t *q)
     }
 
     return removal;
-    
 }
 
 //check to see if the heap is empty
@@ -93,7 +142,6 @@ int priority_empty(priority_t *q)
         empty = 0;
 
     return empty;
-    
 }
 
 //check to see if the heap is full
@@ -108,7 +156,6 @@ int priority_full(priority_t *q)
         full = 0;
     
     return full;
-    
 }
 
 //free pointers used by the heap, and then free the heap
