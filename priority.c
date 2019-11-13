@@ -26,26 +26,29 @@ priority_t *priority_init(int size)
 
 //Function to make the array into a heap
 static void heapify(priority_t *q, event_t *ev)
-{
+{//increasing the size of the array by 1 since the first element in the array needs to be empty
     q->current_size = q->current_size++;
     int child_pos, parent_pos;
     child_pos = q->current_size;
     parent_pos = child_pos/2;
 
+    //if the parent position is the zero'th element, then skip this loop since it should be empty
     while(parent_pos != 0)
-    {
+    {//if the event time is greater than the parent's event time, make this the chid's value since this is an
+     //array that should have small values higher in the heap as opposed to large values
         if(ev->event_time >= q->event_tree[parent_pos]->event_time)
-        {
+        {//set the child's priority value
             q->event_tree[child_pos] = ev;
             return;
         }
         else
-        {
+        {//if the function makes it to this part, that means the parent is larger than the child (which shouldn't be the case)
+         //sets the child as the old's parents position and moves the parent's position up a level
             q->event_tree[child_pos] = q->event_tree[parent_pos];
             child_pos = parent_pos;
             parent_pos = parent_pos/2;
         }
-    }
+    }//set the child's priority value
     q->event_tree[child_pos] = ev;
 }
 
