@@ -152,8 +152,7 @@ int priority_insert(priority_t *q, event_t *ev) {
     return success;
 }
 
-static void reheapify(priority_t *q)
-{
+static void reheapify(priority_t *q) {
     int current_pos = 1;
     int child_pos = 2*current_pos;
     event_t *ev;
@@ -161,12 +160,9 @@ static void reheapify(priority_t *q)
     q->event_tree[q->current_size] = NULL;
     q->current_size--;
 
-    if(priority_empty(q) != 1)
-    {
-        while(child_pos <= q->current_size)
-        {
-            if(child_pos < q->current_size)
-            {
+    if(priority_empty(q) != 1) {
+        while(child_pos <= q->current_size) {
+            if(child_pos < q->current_size) {
                 double right_child = q->event_tree[child_pos+1]->event_time;
                 double left_child = q->event_tree[child_pos]->event_time;
 
@@ -176,8 +172,7 @@ static void reheapify(priority_t *q)
 
             if(q->event_tree[child_pos]->event_time >= ev->event_time)
                 break;
-            else
-            {
+            else {
                 q->event_tree[current_pos] = q->event_tree[child_pos];
                 current_pos = child_pos;
                 child_pos = 2*child_pos;
@@ -199,7 +194,6 @@ event_t *priority_remove(priority_t *q)
     } else {
         removal = q->event_tree[1];
         q->event_tree[1] = q->event_tree[q->current_size];
-        q->current_size--;
         reheapify(q);
     }
 
@@ -254,7 +248,7 @@ int main() {
 
   event_t *event6 = event_init(6);
   int six_six = priority_insert(q, event6);
-  printf("five = %d\n", six_six);
+  printf("six = %d\n", six_six);
   printf("size: %d\n", q->current_size);
   printf("Heap: \n");
   print_heap(q);
@@ -267,6 +261,12 @@ int main() {
 
   event_t *event8 = priority_remove(q);
   printf("Remove Root %f\n", event8->event_time);
+  printf("size: %d\n", q->current_size);
+  printf("Heap: \n");
+  print_heap(q);
+
+  event_t *event9 = priority_remove(q);
+  printf("Remove Root %f\n", event9->event_time);
   printf("size: %d\n", q->current_size);
   printf("Heap: \n");
   print_heap(q);
