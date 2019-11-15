@@ -109,3 +109,4 @@ void queue_finalize(queue_t *q) {
 	free(q->rear);
 	free(q);
 }
+
