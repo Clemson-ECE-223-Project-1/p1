@@ -30,9 +30,38 @@ void time_set(double t)
    time each passenger takes to make each of these steps
    these times are set into the corresponding event 
    before it is scheduled. */
-double time_arrive();
-double time_airline();
-double time_id();
-double time_scan();
-double time_train();
-double time_gate();
+double time_arrive() {
+    srand(time(NULL));
+    double randnum = rand();
+    return randnum;
+}
+
+double time_airline() {
+    srand(time(NULL));
+    double randnum = rand();
+    return randnum;
+}
+
+double time_id() {
+    srand(time(NULL));
+    double randnum = rand();
+    return randnum;
+}
+
+double time_scan() { 
+    srand(time(NULL));
+    double randnum = rand();
+    return randnum;
+}
+
+double time_train() {
+    srand(time(NULL));
+    double randnum = rand();
+    return randnum;
+}
+
+double time_gate() {
+    srand(time(NULL));
+    double randnum = rand();
+    return randnum;
+}
