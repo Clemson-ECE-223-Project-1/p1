@@ -1,8 +1,6 @@
 /* priority.c */
 
 #include "priority.h"
-#include "event.h"
-#include "queue.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,6 +28,7 @@ priority_t *priority_init(int size) {
     return q;
 }
 
+/* return non-zero if the priority queue us empty */
 int priority_empty(priority_t *q) {
     int isEmpty = -1;
 
@@ -43,6 +42,8 @@ int priority_empty(priority_t *q) {
     return isEmpty;
 }
 
+/* return nono-zero if the priority queue is full 
+   This may be trivial using a linked implementation */
 int priority_full(priority_t *q) {
     int isFull = 0;
 
@@ -82,6 +83,8 @@ static void heapify(priority_t *q, event_t *ev)
     q->event_tree[child_pos] = ev;
 }
 
+/* insert an item into the priority queue 
+   return 0 if successful, -1 otherwise */
 int priority_insert(priority_t *q, event_t *ev) {
     int full, empty, success;
 
@@ -151,6 +154,7 @@ event_t *priority_remove(priority_t *q)
     return removal;
 }
 
+// function to print the current heap
 void print_heap(priority_t *q) {
     int isEmpty = priority_empty(q);
     
@@ -164,6 +168,8 @@ void print_heap(priority_t *q) {
     }
 }
 
+/* free all resourced used by the priority queue then free
+   the queue itself */
 void priority_finalize(priority_t *q) {
     for(int i = 0; i < q->current_size; i++) {
         free(q->event_tree[i]);
