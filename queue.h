@@ -1,5 +1,7 @@
 /* queue.h */
 
+#include "sim.h"
+
 typedef struct queue_s queue_t;
 
 /* create and initialize a new queue 
@@ -23,7 +25,7 @@ passenger_t *queue_remove(queue_t *q);
    You can see if queue is empty with this */
 int queue_size(queue_t *q);
 
-/* return nono-zero if the queue is full
+/* return non-zero if the queue is full
    This may be trivial using a linked implementation */
 int queue_full(queue_t *q);
 
