@@ -1,23 +1,11 @@
 /* queue.c */
 
 #include "queue.h"
+#include "event.h"
+#include "sim.h"
 
 #include <stdio.h>
 #include <stdlib.h>
-
-/*create a linked list*/
-typedef struct queue_node {
-	passenger_t *passenger;
-	struct queue_node *next;
-} node;
-
-/*	create queue which pointers to the first node in the queue, the last
-	and the amount of items in the queue*/
-typedef struct queue_s {
-	int count;
-	node *front;
-	node *rear;
-} queue_t;
 
 /* check to see if queue is empty */
 int queue_empty(queue_t *q) {
@@ -93,7 +81,7 @@ int queue_size(queue_t *q) {
 
 /* check to see if queue is full */
 int queue_full(queue_t *q) {
-	if (q->count == 1000000) {
+	if (q->count == MAX_PASS) {
        printf("Queue is full.\n");
 	   return 1;
    } else {
@@ -109,4 +97,3 @@ void queue_finalize(queue_t *q) {
 	free(q->rear);
 	free(q);
 }
-
