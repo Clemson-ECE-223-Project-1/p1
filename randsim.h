@@ -1,4 +1,3 @@
-
 /* this uses log() from the math library, which might need the library */
 /* linked in with -lm on the compile command line */
 
@@ -9,4 +8,3 @@
 double interarrival_time();
 
 double enter_airline_queue_time();
-
