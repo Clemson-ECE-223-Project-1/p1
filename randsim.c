@@ -1,4 +1,3 @@
-
 /* this uses log() from the math library, which might need the library */
 /* linked in with -lm on the compile command line */
 
@@ -86,7 +85,3 @@ double enter_airline_queue_time()
 {
 	return randsim_gauss(60, 20);
 }
-
-
-
-
