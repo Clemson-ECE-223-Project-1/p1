@@ -15,6 +15,7 @@
 
 int num_passengers = 0;
 int MAX_PASS = 1000000; 
+int isPQFull = 0;
 
 int main(int argc, char **argv) {
     // gets size of priority queue from command line argument
@@ -39,6 +40,10 @@ int main(int argc, char **argv) {
 
     /* run main loop */
     while(event_empty(start_ev) != 0) {
+        
+        if(isPQFull) {
+            return 0;
+        }
 
         event_t *new_ev;
         new_ev = event_cause();
@@ -53,7 +58,7 @@ int main(int argc, char **argv) {
                 /* schedule EV_AIRLINEQ event */
                 event_schedule(new_ev);
                 
-                printf("Passenger #%d arrived at %f\n", num_passengers, new_ev->passenger->arrival_time);
+                printf("Passenger #%d arrived at %f\n", num_passengers+1, new_ev->passenger->arrival_time);
 
                 if (MAX_PASS > num_passengers++) {
                     /* create new EV_ARRIVE event and passsenger */
@@ -65,6 +70,23 @@ int main(int argc, char **argv) {
                 }
                 break;
             case (EV_AIRLINEQ) :
+                new_ev->passenger->arrival_time = time_get();
+                /* create new EV_AIRLINEQ event and passenger */
+                new_ev->event_type = EV_AIRLINEQ;
+                new_ev->event_time = time_airline();
+                /* schedule EV_AIRLINEQ event */
+                event_schedule(new_ev);
+                
+                printf("Passenger #%d arrived at %f\n", num_passengers+1, new_ev->passenger->arrival_time);
+
+                if (MAX_PASS > num_passengers++) {
+                    /* create new EV_ARRIVE event and passsenger */
+                    event_t *arrive = event_create();
+                    arrive->event_type = EV_ARRIVE;
+                    arrive->event_time = time_arrive();
+                    /* schedule EV_ARRIVE event */ 
+                    event_schedule(arrive);
+                }
                 break;
             case (EV_AIRLINE) :
                 break;
@@ -78,7 +100,7 @@ int main(int argc, char **argv) {
             }
         
         /* free event */
-        // event_destroy(new_ev);
+        event_destroy(new_ev);
     }
 
     return 0;
