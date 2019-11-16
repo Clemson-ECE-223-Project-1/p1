@@ -85,8 +85,3 @@ int event_empty(event_t *e){
 double event_time(event_t *e) {
    return e->event_time;
 }
-
-// function to print current event queue
-void print_event(event_t *e) {
-    printf("Arrival Time: %f | AirlineQ: %f\n", e->passenger->arrival_time, e->passenger->airlineQ_time);
-}
