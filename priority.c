@@ -1,10 +1,24 @@
 /* priority.c */
 
 #include "priority.h"
+#include "sim.h"
+#include "event.h"
+#include "queue.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 
+extern int isPQFull;
+
+struct priority_s { //typedef removed
+    int current_size; //current size of the heap-array
+    int max_size;   //max size of the heap-array
+    event_t **event_tree;
+}; //priority_t removed
+
+/* create and initialize a new priority queue 
+   must be able to hold at least size items
+   return pointer to the new priority queue, NULL if error */
 priority_t *priority_init(int size) {
     if(size < 0) {
         printf("Size < 0\n");
@@ -34,7 +48,7 @@ int priority_empty(priority_t *q) {
 
     if(q->current_size == 0) {
         isEmpty = 1;
-        printf("Queue Empty\n");
+        // printf("Priority Queue currently empty\n");
     } else {
         isEmpty = 0;
     }
@@ -49,7 +63,8 @@ int priority_full(priority_t *q) {
 
     if(q->current_size == q->max_size) {
         isFull = 1;
-        printf("Queue Full\n");
+        isPQFull = 1;
+        printf("Priority Queue Full\n");
     }
 
     return isFull;
@@ -93,6 +108,7 @@ int priority_insert(priority_t *q, event_t *ev) {
     success = 1;
 
     if(full == 1) {
+        isPQFull = 1;
         success = -1;
     } else if(empty == 1) {
         q->current_size++;
@@ -106,6 +122,7 @@ int priority_insert(priority_t *q, event_t *ev) {
     return success;
 }
 
+// function to reheapify the pq after a removal
 static void reheapify(priority_t *q) {
     int current_pos = 1;
     int child_pos = 2*current_pos;
@@ -141,7 +158,7 @@ static void reheapify(priority_t *q) {
 event_t *priority_remove(priority_t *q)
 {
     int empty = priority_empty(q);
-    event_t *removal;
+    event_t *removal = event_create();
     
     if(empty == 1) {
         removal = NULL;
