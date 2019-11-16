@@ -1,31 +1,30 @@
 /* time.h */
 
+#include "time.h"
+#include "randsim.h"
 #include <time.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 double sim_time;
 
 /* creates a double for using as the global sim time */
-void time_init()
-{
-    sim_time = 500;
+void time_init() {
+    sim_time = 0;
 }
 
 /* cleans up the time system as needed */
-void time_fini()
-{
+void time_fini() {
 
 }
 
 /* returns the current sim time */
-double time_get()
-{
+double time_get() {
     return sim_time;
 }
 
 /* sets the current sim time */
-void time_set(double t)
-{
+void time_set(double t) {
     sim_time = t;
 }
 
@@ -34,15 +33,11 @@ void time_set(double t)
    these times are set into the corresponding event 
    before it is scheduled. */
 double time_arrive() {
-    srand(time(NULL));
-    double randnum = rand();
-    return randnum;
+    return interarrival_time();
 }
 
 double time_airline() {
-    srand(time(NULL));
-    double randnum = rand();
-    return randnum;
+    return enter_airline_queue_time();
 }
 
 double time_id() {
