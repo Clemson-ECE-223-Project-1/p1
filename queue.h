@@ -1,8 +1,22 @@
 /* queue.h */
 
-#include "sim.h"
-
+typedef struct passenger_s passenger_t;
 typedef struct queue_s queue_t;
+typedef struct queue_node node;
+
+/*create a linked list*/
+struct queue_node { //typedef
+	passenger_t *passenger;
+	struct queue_node *next;
+}; //node
+
+/*	create queue which pointers to the first node in the queue, the last
+	and the amount of items in the queue*/
+struct queue_s { //typedef
+	int count;
+	node *front;
+	node *rear;
+}; //queue_t
 
 /* create and initialize a new queue 
    must be able to hold at least size items
