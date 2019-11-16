@@ -8,8 +8,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-extern int isPQFull;
-
 struct priority_s { //typedef removed
     int current_size; //current size of the heap-array
     int max_size;   //max size of the heap-array
@@ -155,8 +153,7 @@ static void reheapify(priority_t *q) {
 }
 
 //remove the root (highest priority) of the heap
-event_t *priority_remove(priority_t *q)
-{
+event_t *priority_remove(priority_t *q) {
     int empty = priority_empty(q);
     event_t *removal = event_create();
     
