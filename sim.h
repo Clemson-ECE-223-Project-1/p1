@@ -26,5 +26,5 @@ typedef struct passenger_s {
    double gate_time;    /* gets to gate */
 } passenger_t;
 
-#define MAX_PASS 1000000
-int num_passengers = 0;
+extern int MAX_PASS;
+extern int num_passengers;
