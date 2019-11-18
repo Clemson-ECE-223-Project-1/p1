@@ -1,8 +1,8 @@
 /* this uses log() from the math library, which might need the library */
 /* linked in with -lm on the compile command line */
 
-#include <stdlib.h>
 #include <math.h>
+#include <stdlib.h>
 #include "randsim.h"
 
 /* NOTE TO PROGRAMMERS - you MUST put a function prototype in your code */

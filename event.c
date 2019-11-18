@@ -1,23 +1,25 @@
 /* event.c */
 
+#include "event.h"
 #include "priority.h"
-#include "time.h"
+#include "queue.h"
 #include "randsim.h"
 #include "sim.h"
-#include "event.h"
-#include "queue.h"
+#include "time.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 
-static priority_t *q = NULL;
-
+static priority_t *q = NULL; //queue used deal with event/event info
+                             //made static so main is less cluttered and functions
+                             //dont need another parameter passed into them.
 /* initializes events, creates a priority queue */
 void event_init() {
     if(q == NULL) {
-        q = priority_init(MAX_PASS);
+        q = priority_init(MAX_PASS); //makes the queue as large as the initialized value is
+                                     //upon start up or via command line argument
         if(q == NULL) {
-            printf("Cannot Intialize Event\n");
+            printf("Cannot Intialize Event.\n");
         }
     }
 }

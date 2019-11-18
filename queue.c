@@ -1,7 +1,7 @@
 /* queue.c */
 
-#include "queue.h"
 #include "event.h"
+#include "queue.h"
 #include "sim.h"
 
 #include <stdio.h>

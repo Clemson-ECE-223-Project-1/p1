@@ -1,9 +1,9 @@
 /* priority.h */
 
-typedef struct priority_s priority_t;
-typedef struct event_s event_t;
-
 extern int isPQFull;
+
+typedef struct event_s event_t;
+typedef struct priority_s priority_t;
 
 /* create and initialize a new priority queue 
    must be able to hold at least size items

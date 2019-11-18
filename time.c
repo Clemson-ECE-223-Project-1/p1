@@ -1,11 +1,12 @@
 /* time.h */
 
-#include "time.h"
 #include "randsim.h"
-#include <time.h>
+#include "time.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
+//variable to represent the time of the event's data
 double sim_time;
 
 /* creates a double for using as the global sim time */
@@ -39,6 +40,9 @@ double time_arrive() {
 double time_airline() {
     return enter_airline_queue_time();
 }
+
+/* the below functions will be edited later much like
+   the two above. */
 
 double time_id() {
     srand(time(NULL));

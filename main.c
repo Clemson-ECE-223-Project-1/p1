@@ -2,12 +2,12 @@
 /* initialize queues */
 /* malloc new EV_ARRIVE event and passenger */
 
-#include "priority.h"
-#include "randsim.h"
-#include "time.h"
-#include "sim.h"
 #include "event.h"
+#include "priority.h"
 #include "queue.h"
+#include "randsim.h"
+#include "sim.h"
+#include "time.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,8 +18,9 @@ int MAX_PASS = 1000000;
 int isPQFull = 0;
 
 int main(int argc, char **argv) {
+    int c; //variable to be set equal to a potential in line argument
+    
     // gets size of priority queue from command line argument
-    int c;
     while ((c = getopt(argc, argv, "e:")) != -1) {
         if (c == 'e') {
             MAX_PASS = atoi(optarg);
@@ -40,7 +41,7 @@ int main(int argc, char **argv) {
 
     /* run main loop */
     while(event_empty(start_ev) != 0) {
-        
+        /* check to see if the queue is full, ends program if it is */
         if(isPQFull) {
             return 0;
         }
@@ -52,28 +53,34 @@ int main(int argc, char **argv) {
         switch (new_ev->event_type) {
             case (EV_ARRIVE) :
                 new_ev->passenger->arrival_time = time_get();
+
                 /* create new EV_AIRLINEQ event and passenger */
                 new_ev->event_type = EV_AIRLINEQ;
                 new_ev->event_time = time_airline();
+
                 /* schedule EV_AIRLINEQ event */
                 event_schedule(new_ev);
                 
                 printf("Passenger #%d arrived at %f\n", num_passengers+1, new_ev->passenger->arrival_time);
 
                 if (MAX_PASS > num_passengers++) {
+
                     /* create new EV_ARRIVE event and passsenger */
                     event_t *arrive = event_create();
                     arrive->event_type = EV_ARRIVE;
                     arrive->event_time = time_arrive();
+
                     /* schedule EV_ARRIVE event */ 
                     event_schedule(arrive);
                 }
                 break;
             case (EV_AIRLINEQ) :
                 new_ev->passenger->arrival_time = time_get();
+
                 /* create new EV_AIRLINEQ event and passenger */
                 new_ev->event_type = EV_AIRLINEQ;
                 new_ev->event_time = time_airline();
+
                 /* schedule EV_AIRLINEQ event */
                 event_schedule(new_ev);
                 
@@ -84,6 +91,7 @@ int main(int argc, char **argv) {
                     event_t *arrive = event_create();
                     arrive->event_type = EV_ARRIVE;
                     arrive->event_time = time_arrive();
+
                     /* schedule EV_ARRIVE event */ 
                     event_schedule(arrive);
                 }
@@ -102,6 +110,6 @@ int main(int argc, char **argv) {
         /* free event */
         event_destroy(new_ev);
     }
-
+    event_fini();
     return 0;
 }

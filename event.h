@@ -1,17 +1,18 @@
 /* event.h */
 
 typedef struct event_s event_t;
-typedef struct queue_s queue_t;
-typedef struct priority_s priority_t;
 typedef struct passenger_s passenger_t;
+typedef struct priority_s priority_t;
+typedef struct queue_s queue_t;
 
 struct event_s { //typedef removed
    int event_type;        /* type of event â€“ see below */
    queue_t *queue;        /* queue passenger is waiting in */
    double event_time;     /* sim time when event occurs */
    passenger_t *passenger;/* passenger related to this event */
-}; //event_t;
+}; //event_t; removed
 
+/* function that returns the event time */
 double event_time(event_t *e);
 
 /* initializes events, creates a priority queue */

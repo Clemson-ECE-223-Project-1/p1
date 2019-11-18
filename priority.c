@@ -1,9 +1,9 @@
 /* priority.c */
 
-#include "priority.h"
-#include "sim.h"
 #include "event.h"
+#include "priority.h"
 #include "queue.h"
+#include "sim.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,7 +19,7 @@ struct priority_s { //typedef removed
    return pointer to the new priority queue, NULL if error */
 priority_t *priority_init(int size) {
     if(size < 0) {
-        printf("Size < 0\n");
+        printf("Size < 0 is not a valid input.\n");
         return NULL;
     }
     
@@ -29,7 +29,7 @@ priority_t *priority_init(int size) {
     q->event_tree = (event_t **)malloc(sizeof(event_t)*(size+1)); // tree
     
     for(int i = 0; i < size; i++) {
-        q->event_tree[i] = NULL;
+        q->event_tree[i] = NULL; //making the pointer point to an array/heap with passed in size
     }
 
     if(q == NULL) {
@@ -54,7 +54,7 @@ int priority_empty(priority_t *q) {
     return isEmpty;
 }
 
-/* return nono-zero if the priority queue is full 
+/* return non-zero if the priority queue is full 
    This may be trivial using a linked implementation */
 int priority_full(priority_t *q) {
     int isFull = 0;
@@ -101,10 +101,15 @@ static void heapify(priority_t *q, event_t *ev)
 int priority_insert(priority_t *q, event_t *ev) {
     int full, empty, success;
 
+    if(q == NULL || ev == NULL)
+        success = -1;
+
     full = priority_full(q);
     empty = priority_empty(q);
     success = 1;
-
+    
+    //check to see the status of the array and
+    //what to do depending on the case
     if(full == 1) {
         isPQFull = 1;
         success = -1;
